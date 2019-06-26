@@ -37,13 +37,16 @@ category_label_encoder, executor_label_encoder, theme_label_encoder = LabelEncod
 
 # Применение LabelEncoder к колонкам ['Category', 'Executor', 'Theme'] и сохранение энкодеров в системе
 data.category = category_label_encoder.fit_transform(data.category)
-pkl.dump(category_label_encoder, open(os.path.join('models', 'category_label_encoder.pkl'), 'wb'), pkl.HIGHEST_PROTOCOL)
+pkl.dump(category_label_encoder, open(os.path.join('models', 'label_encoders', 'category_label_encoder.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
 
 data.executor = executor_label_encoder.fit_transform(data.executor)
-pkl.dump(executor_label_encoder, open(os.path.join('models', 'executor_label_encoder.pkl'), 'wb'), pkl.HIGHEST_PROTOCOL)
+pkl.dump(executor_label_encoder, open(os.path.join('models', 'label_encoders', 'executor_label_encoder.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
 
 data.theme = theme_label_encoder.fit_transform(data.theme)
-pkl.dump(theme_label_encoder, open(os.path.join('models', 'theme_label_encoder.pkl'), 'wb'), pkl.HIGHEST_PROTOCOL)
+pkl.dump(theme_label_encoder, open(os.path.join('models', 'label_encoders', 'theme_label_encoder.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
 
 # Сохранение данных
-data.to_csv(os.path.join('data', 'fully_prepared_data.csv'))
+data.to_csv(os.path.join('data', 'fully_prepared_data.csv'), index=False)
