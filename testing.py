@@ -1,9 +1,12 @@
 import os
 import pickle as pkl
 
+import numpy as np
 import pandas as pd
 
-from utils import process_list
+from utils import process_list, match_value_with_dummies
+
+category_predictions, executor_predictions, theme_predictions = [], [], []
 
 vectorizer = pkl.load(open(os.path.join('models', 'vectorizer.pkl'), 'rb'))
 
@@ -34,4 +37,26 @@ clf_category_prediction = clf_category.predict(prepared_phrase)
 clf_executor_prediction = clf_executor.predict(prepared_phrase)
 clf_theme_prediction = clf_theme.predict(prepared_phrase)
 
+category_predictions.append(clf_category_prediction)
+executor_predictions.append(clf_executor_prediction)
+theme_predictions.append(clf_theme_prediction)
 
+# Предсказываем с помощью моделей второго уровня и предсказаний моделей первого уровня
+
+category_dummies_columns = pkl.load(open(os.path.join('models', 'dummies_columns', 'category_columns.pkl'), 'rb'))
+executor_dummies_columns = pkl.load(open(os.path.join('models', 'dummies_columns', 'executor_columns.pkl'), 'rb'))
+theme_dummies_columns = pkl.load(open(os.path.join('models', 'dummies_columns', 'theme_columns.pkl'), 'rb'))
+
+category_dummies = pd.DataFrame(0, index=np.arange(1), columns=category_dummies_columns)
+executor_dummies = pd.DataFrame(0, index=np.arange(1), columns=executor_dummies_columns)
+theme_dummies = pd.DataFrame(0, index=np.arange(1), columns=theme_dummies_columns)
+
+prepared_phrase_with_category = pd.concat([prepared_phrase, category_dummies], axis=1)
+prepared_phrase_with_executor = pd.concat([prepared_phrase, executor_dummies], axis=1)
+prepared_phrase_with_theme = pd.concat([prepared_phrase, theme_dummies], axis=1)
+
+prepared_phrase_with_category = match_value_with_dummies(clf_category_prediction, prepared_phrase_with_category,
+                                                         'category')
+prepared_phrase_with_executor = match_value_with_dummies(clf_executor_prediction, prepared_phrase_with_executor,
+                                                         'executor')
+prepared_phrase_with_theme = match_value_with_dummies(clf_theme_prediction, prepared_phrase_with_theme, 'theme')
