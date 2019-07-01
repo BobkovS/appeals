@@ -134,10 +134,11 @@ model_accuracy.update({'clf_theme_executor': clf_theme_executor_accuracy})
 print('Prediction accuracy of lvl2 models: \n'
       'category_executor = {0},  category_theme = {1} \n'
       'executor_category = {2},  executor_theme = {3} \n'
-      'theme_category = {4}  theme_executor = {5}'.format(clf_category_executor_accuracy, clf_category_theme_accuracy,
-                                                          clf_executor_category_accuracy,
-                                                          clf_executor_theme_accuracy, clf_theme_category_accuracy,
-                                                          clf_theme_executor_accuracy))
+      'theme_category = {4},  theme_executor = {5} \n'.format(clf_category_executor_accuracy,
+                                                              clf_category_theme_accuracy,
+                                                              clf_executor_category_accuracy,
+                                                              clf_executor_theme_accuracy, clf_theme_category_accuracy,
+                                                              clf_theme_executor_accuracy))
 
 # Сохраняем модели второго уровня
 pkl.dump(clf_category_executor, open(os.path.join('models', 'classifiers', 'lvl2', 'clf_category_executor.pkl'), 'wb'),
@@ -153,11 +154,56 @@ pkl.dump(clf_theme_category, open(os.path.join('models', 'classifiers', 'lvl2', 
 pkl.dump(clf_theme_executor, open(os.path.join('models', 'classifiers', 'lvl2', 'clf_theme_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
 
+# Инициализируем модели третьего уровня
+clf_category_executor_theme = LogisticRegression()
+clf_executor_theme_category = LogisticRegression()
+clf_category_theme_executor = LogisticRegression()
+
+# Данные для моделей третьего уровня
+X_train_category_executor, X_test_category_executor = pd.concat(
+    [X_train, category_dummies_train, executor_dummies_train], axis=1), pd.concat(
+    [X_test, category_dummies_test, executor_dummies_test], axis=1)
+
+X_train_executor_theme, X_test_executor_theme = pd.concat(
+    [X_train, executor_dummies_train, theme_dummies_train], axis=1), pd.concat(
+    [X_test, executor_dummies_test, theme_dummies_test], axis=1)
+
+X_train_category_theme, X_test_category_theme = pd.concat(
+    [X_train, category_dummies_train, theme_dummies_train], axis=1), pd.concat(
+    [X_test, category_dummies_test, theme_dummies_test], axis=1)
+
+# Обучаем модели третьего уровня
+clf_category_executor_theme.fit(X_train_category_executor, Y_theme_train)
+clf_executor_theme_category.fit(X_train_executor_theme, Y_category_train)
+clf_category_theme_executor.fit(X_train_category_theme, Y_executor_train)
+
+# Определяем точность моделей третьего уровня
+clf_category_executor_theme_accuracy = clf_category_executor_theme.score(X_test_category_executor, Y_theme_test)
+clf_executor_theme_category_accuracy = clf_executor_theme_category.score(X_test_executor_theme, Y_category_test)
+clf_category_theme_executor_accuracy = clf_category_theme_executor.score(X_test_category_theme, Y_executor_test)
+
+model_accuracy.update({'clf_category_executor_theme': clf_category_executor_theme_accuracy})
+model_accuracy.update({'clf_executor_theme_category': clf_executor_theme_category_accuracy})
+model_accuracy.update({'clf_category_theme_executor': clf_category_theme_executor_accuracy})
+
+print('Prediction accuracy of lvl3 models: \n'
+      'clf_category_executor_theme = {0} \n'
+      'clf_executor_theme_category = {1} \n'
+      'clf_category_theme_executor = {2} \n'.format(clf_category_executor_theme_accuracy,
+                                                    clf_executor_theme_category_accuracy,
+                                                    clf_category_theme_executor_accuracy))
+
+# Сохраняем модели третьего уровня
+pkl.dump(clf_category_executor_theme,
+         open(os.path.join('models', 'classifiers', 'lvl3', 'clf_category_executor_theme.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
+pkl.dump(clf_executor_theme_category,
+         open(os.path.join('models', 'classifiers', 'lvl3', 'clf_executor_theme_category.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
+pkl.dump(clf_category_theme_executor,
+         open(os.path.join('models', 'classifiers', 'lvl3', 'clf_category_theme_executor.pkl'), 'wb'),
+         pkl.HIGHEST_PROTOCOL)
+
 # Сохраняем коллекцию со значениями точности моделей
 pkl.dump(model_accuracy, open(os.path.join('models', 'model_accuracy.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-
-# Инициализируем и обучаем модели третьего уровня
-clf_category_executor_theme = LogisticRegression()
-clf_category_theme_executor = LogisticRegression()
-clf_executor_theme_category = LogisticRegression()
