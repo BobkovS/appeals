@@ -9,6 +9,8 @@ from sklearn.linear_model import LogisticRegression
 
 from utils import _tokenizer
 
+np.random.seed = 42
+
 warnings.filterwarnings("ignore")
 
 # Инициализируем хранилище для сохранения уверенности моделей
@@ -37,6 +39,8 @@ pkl.dump(theme_dummies.columns, open(os.path.join('models', 'dummies_columns', '
 train_index = np.random.rand(len(data)) < 0.9
 train_data = data[train_index].reset_index(drop=True)
 test_data = data[~train_index].reset_index(drop=True)
+
+test_data.to_csv(os.path.join('data', 'test_data.csv'), index=False)
 
 category_dummies_train = category_dummies[train_index].reset_index(drop=True)
 category_dummies_test = category_dummies[~train_index].reset_index(drop=True)
