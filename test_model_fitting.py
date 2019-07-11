@@ -31,7 +31,7 @@ test_data.to_csv(os.path.join('data', 'test_data.csv'), index=False)
 # Инициализируем и обучаем векторайзер
 vectorizer = TfidfVectorizer(tokenizer=_tokenizer)
 vectorizer.fit(data.text)
-pkl.dump(vectorizer, open(os.path.join('models', 'vectorizer.pkl'), 'wb'), pkl.HIGHEST_PROTOCOL)
+pkl.dump(vectorizer, open(os.path.join('test_models', 'vectorizer.pkl'), 'wb'), pkl.HIGHEST_PROTOCOL)
 
 # Инициализируем X и Y
 X_train, X_test = vectorizer.transform(train_data.text), vectorizer.transform(test_data.text)
@@ -67,33 +67,33 @@ clf_sgdc_theme.fit(X_train, Y_theme_train)
 clf_etc_theme.fit(X_train, Y_theme_train)
 
 # Сохраняем модели первого уровня
-pkl.dump(clf_svc_category, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_svc_category.pkl'), 'wb'),
+pkl.dump(clf_svc_category, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_svc_category.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_pac_category, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_pac_category.pkl'), 'wb'),
+pkl.dump(clf_pac_category, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_pac_category.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_ridge_category, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_ridge_category.pkl'), 'wb'),
+pkl.dump(clf_ridge_category, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_ridge_category.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_sgdc_category, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_sgdc_category.pkl'), 'wb'),
+pkl.dump(clf_sgdc_category, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_sgdc_category.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_etc_category, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_etc_category.pkl'), 'wb'),
+pkl.dump(clf_etc_category, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_etc_category.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_svc_executor, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_svc_executor.pkl'), 'wb'),
+pkl.dump(clf_svc_executor, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_svc_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_pac_executor, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_pac_executor.pkl'), 'wb'),
+pkl.dump(clf_pac_executor, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_pac_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_ridge_executor, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_ridge_executor.pkl'), 'wb'),
+pkl.dump(clf_ridge_executor, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_ridge_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_sgdc_executor, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_sgdc_executor.pkl'), 'wb'),
+pkl.dump(clf_sgdc_executor, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_sgdc_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_etc_executor, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_etc_executor.pkl'), 'wb'),
+pkl.dump(clf_etc_executor, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_etc_executor.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_svc_theme, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_svc_theme.pkl'), 'wb'),
+pkl.dump(clf_svc_theme, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_svc_theme.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_pac_theme, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_pac_theme.pkl'), 'wb'),
+pkl.dump(clf_pac_theme, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_pac_theme.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_ridge_theme, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_ridge_theme.pkl'), 'wb'),
+pkl.dump(clf_ridge_theme, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_ridge_theme.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_sgdc_theme, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_sgdc_theme.pkl'), 'wb'),
+pkl.dump(clf_sgdc_theme, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_sgdc_theme.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
-pkl.dump(clf_etc_theme, open(os.path.join('models', 'classifiers', 'lvl1', 'clf_etc_theme.pkl'), 'wb'),
+pkl.dump(clf_etc_theme, open(os.path.join('test_models', 'classifiers', 'lvl1', 'clf_etc_theme.pkl'), 'wb'),
          pkl.HIGHEST_PROTOCOL)
